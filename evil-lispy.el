@@ -78,6 +78,23 @@
 
   (define-key map [escape] (kbd "C-g"))
   
+  (define-key map "w" (evil-lispy--bind
+                       (evil-normal-state) (evil-forward-word)))
+  (define-key map "W" (evil-lispy--bind
+                       (evil-normal-state) (evil-forward-WORD-begin)))
+  (define-key map "e" (evil-lispy--bind
+                       (evil-normal-state) (evil-forward-word-end)))
+  (define-key map "E" (evil-lispy--bind
+                       (evil-normal-state) (evil-forward-WORD-end)))
+  (define-key map "b" (evil-lispy--bind
+                       (evil-normal-state) (evil-backward-word-begin)))
+  (define-key map "B" (evil-lispy--bind          backward
+                       (evil-normal-state) (evil-backward-WORD-begin)))
+  (define-key map "ge" (evil-lispy--bind
+                       (evil-normal-state) (evil-backward-word-end)))
+  (define-key map "gE" (evil-lispy--bind
+                       (evil-normal-state) (evil-backward-WORD-end)))
+
   (define-key map "i" 'evil-insert)
   (define-key map "I" 'evil-insert-line)
   (define-key map "a" 'evil-append)
