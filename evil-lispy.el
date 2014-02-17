@@ -147,8 +147,8 @@
   (define-key map "p" 'lispy-yank)
 
   ;; Marking
-  (define-key map "w" 'lispy-ace-symbol)
-  (define-key map "W" 'lispy-ace-symbol-replace)
+  (define-key map "s" 'lispy-ace-symbol)
+  (define-key map "gs" 'lispy-ace-symbol-replace)
   (define-key map "v" 'lispy-mark-symbol)
   (define-key map "V" 'lispy-mark-list)
 
@@ -162,6 +162,8 @@
   (define-key map "K" 'lispy-describe)
   (define-key map "A" 'lispy-arglist)
   (define-key map "gq" 'lispy-normalize)
+  (define-key map "=" 'lispy-tab)
+  (define-key map (kbd "TAB") 'lispy-shifttab)
   (lispy-define-key map "z" 'lispy-view t)
 
   ;; Digit argument
@@ -172,6 +174,7 @@
 
 (evil-add-command-properties 'lispy-out-forward :jump t)
 (evil-add-command-properties 'lispy-out-backward :jump t)
+(evil-add-command-properties 'lispy-follow :jump t)
 
 
 (provide 'evil-lispy)
