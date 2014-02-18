@@ -50,17 +50,24 @@
   (evil-define-key 'insert map (kbd "]") 'lispy-out-forward-nostring)
 
   ;; Killing
-  (evil-define-key 'insert map (kbd "DEL") 'lispy-delete-backward)
   (evil-define-key 'normal map (kbd "x") 'lispy-delete)
+  (evil-define-key 'insert map (kbd "X") 'lispy-delete-backward)
+  (evil-define-key 'insert map (kbd "DEL") 'lispy-delete-backward)
+
+  ;(evil-define-key 'normal map (kbd "dd") 'lispy-kill)
   (evil-define-key 'normal map (kbd "D") 'lispy-kill)
   (evil-define-key 'normal map (kbd "C") (evil-lispy--bind
                                           (lispy-kill) (evil-insert 0)))
   (evil-define-key 'normal map (kbd "S") (evil-lispy--bind
                                           (lispy-kill-at-point) (evil-insert 0)))
 
+  (evil-define-key 'normal map (kbd "p") 'lispy-yank)
+
   ;; Misc
-  (evil-define-key 'normal map (kbd "M-v") 'lispy-mark-symbol)
-  (evil-define-key 'normal map (kbd "M-j") 'lispy-split)
+  (evil-define-key 'normal map (kbd "gv") (evil-lispy--bind (evil-lispy-state) (lispy-mark-symbol)))
+  (evil-define-key 'normal map (kbd "gV") (evil-lispy--bind (evil-lispy-state) (lispy-mark)))
+
+  (evil-define-key 'normal map (kbd "gJ") 'lispy-split)
   (evil-define-key 'normal map (kbd "C-e") 'lispy-move-end-of-line)
 
   (evil-define-key 'normal map (kbd "C-1") 'lispy-describe-inline)
@@ -68,13 +75,13 @@
   map)
 
 
+;; Evil lispy state binds
 (let ((map evil-lispy-state-map))
   ;; Exiting state
   (define-key map (kbd "C-g")
     (evil-lispy--bind
-     (if (region-active-p)
-         (evil-visual-state)
-       (evil-normal-state))))
+     (deactivate-mark)
+     (evil-normal-state)))
 
   (define-key map [escape] (kbd "C-g"))
   
@@ -128,7 +135,7 @@
   (define-key map "/" 'lispy-splice)
   (lispy-define-key map "r" 'lispy-raise t)
   (define-key map "R" 'lispy-raise-some)
-  (define-key map (kbd "M-j") 'lispy-split)
+  (define-key map (kbd "gJ") 'lispy-split)
   (define-key map "J" 'lispy-join)
   (lispy-define-key map "C" 'lispy-convolute t)
   (lispy-define-key map "C-k" 'lispy-move-up t)
@@ -145,6 +152,8 @@
   (define-key map "S" (evil-lispy--bind
                        (lispy-kill-at-point) (evil-insert 0)))
   (define-key map "p" 'lispy-yank)
+  (define-key map "y" 'lispy-new-copy)
+
 
   ;; Marking
   (define-key map "s" 'lispy-ace-symbol)
