@@ -7,6 +7,19 @@
      (interactive)
      ,@code))
 
+(defun evil-lispy-alter-sexp-left ()
+  "Move bound of sexp left"
+  (interactive)
+  (if (looking-at lispy-left)
+      (lispy-slurp 1)
+    (lispy-barf 1)))
+
+(defun evil-lispy-alter-sexp-right ()
+  "Move bound of sexp right"
+  (interactive)
+  (if (looking-at lispy-left)
+      (lispy-barf 1)
+    (lispy-slurp 1)))
 
 ;;;###autoload
 (define-minor-mode evil-lispy-mode
@@ -130,8 +143,8 @@
   (define-key map "Q" 'lispy-ace-char)
 
   ;; Paredit transformations
-  (define-key map "<" 'lispy-barf)
-  (define-key map ">" 'lispy-slurp)
+  (define-key map ">" 'evil-lispy-alter-sexp-right)
+  (define-key map "<" 'evil-lispy-alter-sexp-left)
   (define-key map "/" 'lispy-splice)
   (lispy-define-key map "r" 'lispy-raise t)
   (define-key map "R" 'lispy-raise-some)
