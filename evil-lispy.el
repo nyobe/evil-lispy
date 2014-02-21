@@ -46,12 +46,12 @@
   (evil-define-key 'normal map (kbd "(")
     (evil-lispy--bind
      (evil-lispy-state)
-     (evil-forward-char 1 nil nil)
+     (evil-forward-char 1 nil t)
      (lispy-backward 1)))
   (evil-define-key 'normal map (kbd ")")
     (evil-lispy--bind
      (evil-lispy-state)
-     (evil-backward-char 1 nil nil)
+     (evil-backward-char 1 nil t)
      (lispy-forward 1)))
 
   ;; Brackets
