@@ -7,10 +7,21 @@ been mapped yet. The motivation for this is essentially to make Lispy active
 explicitly rather than implicitly.
 
 # Command Reference
-## Sexp state
+## Normal and Sexp state
 
-Enter the sexp editing state with either `(` or `)`. Exit it with ESC, i, a,
-SPC, or RET.
+ - Enter the sexp editing state with either `(` or `)`.
+ - Exit it with ESC, or word motions (w/W b/B e/E) to return to normal state.
+ - Use i, a, SPC, or RET to enter insert state.
+
+ - x, X kill full sexps on the boundary
+ - D, C preserve paren balance
+ - S kills the current sexp and enters insert state
+
+ - gv mark a symbol and enter sexp state
+ - gV mark an sexp and enter sexp state
+
+ - gJ split an sexp
+
 
 ## Navigation
     |-----+--------------------------+------------+-------------------|
@@ -33,36 +44,52 @@ SPC, or RET.
     | key | command                  | key        | command           |
     |-----+--------------------------+------------+-------------------|
     | C-k | `lispy-move-up`          | C-j        | `lispy-move-down` |
-    | >   | `lispy-slurp`            | <          | `lispy-barf`      |
+    | >   | `alter-sexp-right`       | <          | `alter-sexp-left` |
     | c   | `lispy-clone`            | DEL        |                   |
-    | C   | `lispy-convolute`        | C          | reverses itself   |
+    | C   | `lispy-convolute`        | C          | Reverses itself   |
     | r   | `lispy-raise`            | u          | `lispy-undo`      |
     | R   | `lispy-raise-some`       | u          | `lispy-undo`      |
     | /   | `lispy-splice`           | u          | `lispy-undo`      |
-    | M-j | `lispy-split`            | J          | `lispy-join`      |
+    | gJ  | `lispy-split`            | J          | `lispy-join`      |
     | O   | `lispy-oneline`          | M          | `lispy-multiline` |
     | ;   | `lispy-comment`          | C-u ;      | `lispy-comment`   |
     | t   | `lispy-teleport`         |            |                   |
     |-----+--------------------------+------------+-------------------|
+
+    < and > change the bounds of sexps contextually, depeding on which
+    side they point is on.
 
 ## Kill related
 
     |-------+------------------------------------|
     | key   | command                            |
     |-------+------------------------------------|
-    | DEL   |                                    |
+    | DEL   | `lispy-delete-backward`            |
     | D     | `lispy-kill`                       |
+    | C     | `lispy-kill` and enter insert      |
     | S     | `lispy-kill-at-point`              |
+    | p     | `lispy-yank`                       |
+    | y     | `lispy-new-copy`                   |
+    |-------+------------------------------------|
 
 ## Marking
 
-    | w     | `lispy-ace-symbol`                 |
-    | W     | `lispy-ace-symbol-replace`         |
+    |-------+------------------------------------|
+    | key   | command                            |
+    |-------+------------------------------------|
     | v     | `lispy-mark-symbol`                |
-    | v     | `lispy-mark-list`                  |
+    | V     | `lispy-mark-list`                  |
+    | s     | `lispy-ace-symbol`                 |
+    | gs    | `lispy-ace-symbol-replace`         |
+    |-------+------------------------------------|
 
 ## Misc
 
+    |-------+------------------------------------|
+    | key   | command                            |
+    |-------+------------------------------------|
+    | C-1   | `lispy-describe-inline             |
+    | C-2   | `lispy-arglist-inline              |
     | u     | `lispy-undo`                       |
     | e     | `lispy-eval`                       |
     | E     | `lispy-eval-and-insert`            |
@@ -70,5 +97,7 @@ SPC, or RET.
     | A     | `lispy-arglist`                    |
     | gq    | `lispy-normalize`                  |
     | z     | `lispy-view`                       |
+    | =     | `lispy-tab`                        |
+    | TAB   | `lispy-shifttab`                   |
     |-------+------------------------------------|
 
