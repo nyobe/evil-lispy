@@ -1,6 +1,30 @@
 (require 'evil)
 (require 'lispy)
 
+;; ——— Mode/State definition ——————————————————————————————————————————————————
+
+;;;###autoload
+(define-minor-mode evil-lispy-mode
+  "Context sensitive paredit"
+  :lighter " eLY"
+  :keymap (make-sparse-keymap))
+
+
+;; Evil sexp editing state
+(evil-define-state
+  lispy "lispy operation state"
+  :tag " <S> "
+  :cursor ("orange" box)
+  :suppress-keymap t
+
+  ;; disable automatically going into visual mode...
+  (if (evil-lispy-state-p)
+      (remove-hook 'activate-mark-hook 'evil-visual-activate-hook t)
+    (add-hook 'activate-mark-hook 'evil-visual-activate-hook nil t)))
+
+
+;; ——— Utilities ————————————————————————————————————————————————————————---—--
+
 (defmacro evil-lispy--bind (&rest code)
   "Helper to make an bindable command"
   `(lambda ()
@@ -21,26 +45,9 @@
       (lispy-barf 1)
     (lispy-slurp 1)))
 
-;;;###autoload
-(define-minor-mode evil-lispy-mode
-  "Context sensitive paredit"
-  :lighter " eLY"
-  :keymap (make-sparse-keymap))
 
+;; ——— Evil standard keymap overrides —————————————————————————————————————————
 
-;; Evil sexp editing state
-(evil-define-state
-  lispy "lispy operation state"
-  :tag " <S> "
-  :cursor ("orange" box)
-  :suppress-keymap t
-
-  (if (evil-lispy-state-p) ;; disable automatically going into visual mode...
-      (remove-hook 'activate-mark-hook 'evil-visual-activate-hook t)
-    (add-hook 'activate-mark-hook 'evil-visual-activate-hook nil t)))
-
-
-;; Evil standard keymap overrides
 (let ((map evil-lispy-mode-map))
   ;; Entering lispy state
   (evil-define-key 'normal map (kbd "(")
@@ -88,7 +95,8 @@
   map)
 
 
-;; Evil lispy state binds
+;; ——— Lispy state binds ——————————————————————————————————————————————————————
+
 (let ((map evil-lispy-state-map))
   ;; Exiting state
   (define-key map (kbd "C-g")
@@ -97,7 +105,7 @@
      (evil-normal-state)))
 
   (define-key map [escape] (kbd "C-g"))
-  
+
   (define-key map "w" (evil-lispy--bind
                        (evil-normal-state) (evil-forward-word)))
   (define-key map "W" (evil-lispy--bind
