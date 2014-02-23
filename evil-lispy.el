@@ -116,7 +116,7 @@
                        (evil-normal-state) (evil-forward-WORD-end)))
   (define-key map "b" (evil-lispy--bind
                        (evil-normal-state) (evil-backward-word-begin)))
-  (define-key map "B" (evil-lispy--bind          backward
+  (define-key map "B" (evil-lispy--bind
                        (evil-normal-state) (evil-backward-WORD-begin)))
   (define-key map "ge" (evil-lispy--bind
                        (evil-normal-state) (evil-backward-word-end)))
