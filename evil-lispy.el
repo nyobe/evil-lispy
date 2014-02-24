@@ -7,7 +7,8 @@
 (define-minor-mode evil-lispy-mode
   "Context sensitive paredit"
   :lighter " eLY"
-  :keymap (make-sparse-keymap))
+  :keymap (make-sparse-keymap)
+  :after-hook (evil-normal-state))
 
 
 ;; Evil sexp editing state
